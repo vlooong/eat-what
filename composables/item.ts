@@ -1,13 +1,15 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
+import { useLocalStorage } from '@vueuse/core'
 
+interface Item {
+  key: number
+  label: string
+  favorite?: boolean,
+  location?: string,
+}
 export const useItemStore = defineStore('item', () => {
-  interface Item {
-    key: number
-    label: string
-    favorite?: boolean,
-    location?: string,
-  }
-  const currentItems = ref<Item[]>([{
+  
+  const currentItems = useLocalStorage('itemsLocalStorage', [{
     key: 1,
     label: '火锅米线',
     favorite: true,
@@ -49,7 +51,7 @@ export const useItemStore = defineStore('item', () => {
 
 
   return {
-    currentItems,
+    currentItems : skipHydrate(currentItems),
     getFavoriteKeys,
     getFavoriteItems
   }

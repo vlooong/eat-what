@@ -4,7 +4,7 @@ import { getRandomInt } from 'element-plus/es/utils';
 import { storeToRefs } from 'pinia'
 
 const store = useItemStore()
-const { getFavoriteKeys, getFavoriteItems } = store
+const { getFavoriteItems } = store
 const { currentItems } = storeToRefs(store)
 
 interface Item {
@@ -29,16 +29,22 @@ onMounted(() => {
   defaultSelect(favoriteItems)
 })
 
+// 记住勾选状态
 const selectedRows = ref<Item[]>()
 function handleSelectionChange(rows: Item[]) {
   selectedRows.value = rows
+  if (rows) {
+    currentItems.value.forEach((item) => {
+      item.favorite = rows.includes(item)
+    })
+  }
 }
 
 // 做决定
 const res = ref<Item>()
 function doSelect() {
   if (selectedRows.value) {
-    const idx =getRandomInt(selectedRows.value.length)
+    const idx = getRandomInt(selectedRows.value.length)
     res.value = selectedRows.value[idx]
   }
 }
@@ -51,7 +57,6 @@ function doSelect() {
       <el-header>Eat What?</el-header>
       <el-container>
         <el-main>
-          <el-button type="primary" @click="doSelect">决定吧！</el-button>
           <el-row>
             <el-table ref="multipleTableRef" :data="currentItems" @selection-change="handleSelectionChange" width="100%">
               <el-table-column type="selection" />
@@ -60,8 +65,9 @@ function doSelect() {
             </el-table>
           </el-row>
           <el-row>
-            {{ res?.location }}
-            {{ res?.label }}
+            <el-button @click="doSelect" w-full h-3xl>
+              {{ res ? `${res?.location} ${res?.label}` : '点击抽取！！！' }}
+            </el-button>
           </el-row>
         </el-main>
       </el-container>
