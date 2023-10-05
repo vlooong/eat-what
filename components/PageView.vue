@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElTable } from 'element-plus';
+import { getRandomInt } from 'element-plus/es/utils';
 import { storeToRefs } from 'pinia'
 
 const store = useItemStore()
@@ -34,9 +35,12 @@ function handleSelectionChange(rows: Item[]) {
 }
 
 // 做决定
-const res = ref()
+const res = ref<Item>()
 function doSelect() {
-  console.log('do select')
+  if (selectedRows.value) {
+    const idx =getRandomInt(selectedRows.value.length)
+    res.value = selectedRows.value[idx]
+  }
 }
 
 </script>
@@ -46,16 +50,20 @@ function doSelect() {
     <el-container>
       <el-header>Eat What?</el-header>
       <el-container>
-        <el-aside>
+        <el-main>
           <el-button type="primary" @click="doSelect">决定吧！</el-button>
-          <el-table ref="multipleTableRef" :data="currentItems" style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" />
-            <el-table-column property="label" label="名称" width="120" align="center" />
-            <el-table-column property="location" label="位置" width="120" align="center" />
-          </el-table>
-        </el-aside>
-        <el-main>{{ res }}</el-main>
+          <el-row>
+            <el-table ref="multipleTableRef" :data="currentItems" @selection-change="handleSelectionChange" width="100%">
+              <el-table-column type="selection" />
+              <el-table-column property="label" label="名称" align="center" />
+              <el-table-column property="location" label="位置" align="center" />
+            </el-table>
+          </el-row>
+          <el-row>
+            {{ res?.location }}
+            {{ res?.label }}
+          </el-row>
+        </el-main>
       </el-container>
     </el-container>
   </div>

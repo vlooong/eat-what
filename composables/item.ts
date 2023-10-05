@@ -24,13 +24,25 @@ export const useItemStore = defineStore('item', () => {
     label: '小炒',
     favorite: false,
     location: '二食堂三楼'
+  },
+  {
+    key: 4,
+    label: '大众餐',
+    favorite: false,
+    location: '一食堂一楼'
+  },
+  {
+    key: 5,
+    label: '刘氏鸡公煲',
+    favorite: false,
+    location: '西门外'
   }])
 
   function getFavoriteKeys() {
     return currentItems.value.filter(item => item.favorite).map(item => item.key)
   }
 
-  function getFavoriteItems(){
+  function getFavoriteItems() {
     return currentItems.value.filter(item => item.favorite)
   }
 
