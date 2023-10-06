@@ -43,10 +43,10 @@ function handleSelectionChange(rows: Item[]) {
   }
 }
 
-// 点击选择按钮
+// 做决定
 const res = ref<Item>()
 function doSelect() {
-  if (selectedRows.value) {
+  if (selectedRows.value && selectedRows.value.length > 0) {
     const idx = getRandomInt(selectedRows.value.length)
     res.value = selectedRows.value[idx]
     ElMessageBox.confirm(
@@ -84,7 +84,6 @@ function handleDelete(index: number, row: Item) {
   }
 }
 
-
 // 新增条目
 const centerDialogVisible = ref(false)
 const formLabelAlign = ref<Item>({
@@ -117,6 +116,17 @@ function handleAddItem() {
     type: 'success',
   })
 }
+
+// 关闭遮罩
+function handleDialogClose() {
+  formLabelAlign.value = {
+    key: 0,
+    label: '',
+    location: '',
+    favorite: true,
+  }
+}
+
 // 重置按钮
 function handleReset() {
   restoreToDefault()
@@ -159,7 +169,7 @@ async function particlesInit(engine: Engine): Promise<void> {
   <div text-gray:80>
     <vue-particles id="tsparticles" :options="particlesOptions" :particles-init="particlesInit" />
     <el-container>
-      <el-header><span font-serif mx-auto font-size-12>
+      <el-header><span font-serif mx-auto font-size-12 color-blue>
           Eat What?
         </span></el-header>
       <el-main>
@@ -183,12 +193,12 @@ async function particlesInit(engine: Engine): Promise<void> {
           </el-table>
         </el-row>
         <el-row>
-          <el-button text bg @click="doSelect" w-full>
+          <el-button text bg @click="doSelect" type="primary" w-full font-size-14>
             点击抽取！！！
           </el-button>
         </el-row>
 
-        <el-dialog v-model="centerDialogVisible" title="新增" width="15rem" align-center>
+        <el-dialog v-model="centerDialogVisible" title="新增" width="15rem" align-center @closed="handleDialogClose">
           <el-form label-position="top" label-width="10rem" :model="formLabelAlign">
             <el-form-item label="名称">
               <el-input v-model="formLabelAlign.label" />

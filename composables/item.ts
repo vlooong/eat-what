@@ -8,11 +8,11 @@ interface Item {
   location: string,
 }
 export const useItemStore = defineStore('item', () => {
-  const defaultSelectedItems = [{
+  const defaultSelectedItems: Item[] = [{
     key: 1,
     label: '火锅米线',
     favorite: true,
-    location: '一食堂'
+    location: '一食堂二楼'
   },
   {
     key: 2,
@@ -40,10 +40,47 @@ export const useItemStore = defineStore('item', () => {
   },
   {
     key: 6,
-    label: '油泼面',
+    label: '猪肝面',
     favorite: false,
+    location: '一食堂一楼'
+  },
+  {
+    key: 7,
+    label: '东家卤味',
+    favotite: true,
     location: '一食堂二楼'
-  }]
+  },
+  {
+    key: 8,
+    label: '冒菜',
+    favotite: true,
+    location: '一食堂二楼'
+  },
+  {
+    key: 9,
+    label: '黄焖鸡',
+    favotite: true,
+    location: '一食堂二楼'
+  },
+  {
+    key: 10,
+    label: '老麻抄手',
+    favotite: true,
+    location: '一食堂一楼'
+  },
+  {
+    key: 11,
+    label: '烫饭',
+    favotite: true,
+    location: '一食堂一楼'
+  },
+  {
+    key: 12,
+    label: '自选饺子',
+    favotite: true,
+    location: '二食堂负一楼'
+  },
+  ]
 
   const currentItems = useLocalStorage('itemsLocalStorage', defaultSelectedItems)
 
