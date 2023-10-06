@@ -151,7 +151,12 @@ const particlesOptions = {
       enable: true
     },
     move: {
-      enable: true
+      direction: 'none',
+      enable: true,
+      outMode: 'bounce',
+      random: false,
+      speed: 4,
+      straight: false
     },
     number: {
       value: 100
