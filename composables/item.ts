@@ -4,12 +4,11 @@ import { useLocalStorage } from '@vueuse/core'
 interface Item {
   key: number
   label: string
-  favorite?: boolean,
-  location?: string,
+  favorite: boolean,
+  location: string,
 }
 export const useItemStore = defineStore('item', () => {
-  
-  const currentItems = useLocalStorage('itemsLocalStorage', [{
+  const defaultSelectedItems = [{
     key: 1,
     label: '火锅米线',
     favorite: true,
@@ -38,7 +37,15 @@ export const useItemStore = defineStore('item', () => {
     label: '刘氏鸡公煲',
     favorite: false,
     location: '西门外'
-  }])
+  },
+  {
+    key: 6,
+    label: '油泼面',
+    favorite: false,
+    location: '一食堂二楼'
+  }]
+
+  const currentItems = useLocalStorage('itemsLocalStorage', defaultSelectedItems)
 
   function getFavoriteKeys() {
     return currentItems.value.filter(item => item.favorite).map(item => item.key)
@@ -48,12 +55,17 @@ export const useItemStore = defineStore('item', () => {
     return currentItems.value.filter(item => item.favorite)
   }
 
+  function restoreToDefault() {
+    currentItems.value = defaultSelectedItems
+  }
+
 
 
   return {
-    currentItems : skipHydrate(currentItems),
+    currentItems: skipHydrate(currentItems),
     getFavoriteKeys,
-    getFavoriteItems
+    getFavoriteItems,
+    restoreToDefault
   }
 })
 

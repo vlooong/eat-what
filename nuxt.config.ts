@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@element-plus/nuxt',
   ],
+  plugins: [
+    {
+      src: '~/plugins/vue3-particles.ts',
+      mode: 'client'
+    }
+  ],
 
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
