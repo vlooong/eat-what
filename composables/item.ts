@@ -80,6 +80,12 @@ export const useItemStore = defineStore('item', () => {
     favorite: true,
     location: '二食堂负一楼'
   },
+  {
+    key: 13,
+    label: '粤式烧腊',
+    favorite: true,
+    location: '一食堂二楼'
+  },
   ]
 
   const currentItems = useLocalStorage('itemsLocalStorage', defaultSelectedItems)
